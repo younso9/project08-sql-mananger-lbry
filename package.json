@@ -1,0 +1,27 @@
+{
+  "name": "project08-sql-mananger-lbry",
+  "version": "1.0.0",
+  "description": "SQL Library Manager",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/younso9/project08-sql-mananger-lbry.git"
+  },
+  "author": "Sonya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/younso9/project08-sql-mananger-lbry/issues"
+  },
+  "homepage": "https://github.com/younso9/project08-sql-mananger-lbry#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-validator": "^6.1.1",
+    "pug": "^2.0.4",
+    "sequelize": "^5.15.2",
+    "sequelize-cli": "^5.5.0",
+    "sqlite3": "^4.1.0"
+  }
+}
