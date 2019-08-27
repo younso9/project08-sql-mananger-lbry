@@ -1,12 +1,12 @@
-//creating an express app
+//create an express app
 const express = require('express');
 const app = express();
 
 //Specify Pug as the view engine for the app
 const path = require('path');
 
-//Set Publc folder via route /static
-app.use('/static', express.static(path.join(__dirname, 'public')))
+//Set Public folder via route /static
+app.use('/static', express.static(path.join(__dirname, '../public')))
 app.get('/favicon.ico', (req, res) => res.redirect('/static/favicon.ico'));
 
 //Sequelize DB object typical way to get Sequelize DB object
@@ -30,8 +30,21 @@ app.get('/books', (req, res, next) => {
         });
 });
 
+app.get('/books/new', (req, res, next) => {
+    res.render("new-book");
+});
 
+app.post('/books/new', (req, res, next) => {
+    const Book = app.get('models').Book;
+    Book.create({
+        title: req.body.title,
+        author: req.body.author,
+        genre: req.body.genre,
+        year: req.body.year
+    })
+        .then(() => {
+            res.redirect('/books');
+        })
+});
 
-
-
-
+module.exports = app;
