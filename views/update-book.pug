@@ -1,28 +1,36 @@
 extends layout.pug
 
 block title
-title Update Book
+  title Update Book
 
 block content 
-div
-h1 Update Book
-form(method='POST' action='/books/' + id)
-p
-label(for='title') Title
-input(name='title' type='text' id='title' value=(undefined===book ? '' : book.title))
-p
-label(for='author') Author
-input(name='author' type='text' id='author' value=(undefined===book ? '' : book.author))
-p
-label(for='genre') Genre
-input(name='genre' type='text' id='genre' value=(undefined===book ? '' : book.genre))
-p
-label(for='year') Year
-input(name='year' type='text' id='year' value=(undefined===book ? '' : book.year))
-p
-input(value='Update Book' type='submit')
-form(method='POST' action=('/books/' + id + '/delete') onsubmit="return confirm('Do you really want to delete this book?');")
-p
-a.button.expanded(href="/books") Cancel
-p
-input(value='Delete Book' type='submit')
+  div
+    h1 Update Book
+    if errors
+      div
+        div
+          h2 Input Validation Failed
+          ul
+            each errorMesg in errors
+              li= errorMesg.message
+    form(method='POST' action='/books/' + id)
+      p
+        label(for='title') Title
+        input(name='title' type='text' id='title' value=(undefined===book ? '' : book.title))
+      p
+        label(for='author') Author
+        input(name='author' type='text' id='author' value=(undefined===book ? '' : book.author))
+      p
+        label(for='genre') Genre
+        input(name='genre' type='text' id='genre' value=(undefined===book ? '' : book.genre))
+      p
+        label(for='year') Year
+        input(name='year' type='text' id='year' value=(undefined===book ? '' : book.year))
+      p
+        input(value='Update Book' type='submit')
+
+    form(method='POST' action=('/books/' + id + '/delete') onsubmit="return confirm('Do you really want to delete this book?');")
+      p
+        a.button.expanded(href="/books") Cancel
+      p
+        input(value='Delete Book' type='submit')
