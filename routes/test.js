@@ -69,7 +69,8 @@ app.post('/books/new', (req, res, next) => {
                         errors: err.errors
                     });
                 }
-                else {
+                else
+                {
                     throw err;
                 }
             })
