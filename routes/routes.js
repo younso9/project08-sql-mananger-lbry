@@ -9,6 +9,10 @@ const path = require('path');
 app.use('/static', express.static(path.join(__dirname, '../public')))
 app.get('/favicon.ico', (req, res) => res.redirect('/static/favicon.ico'));
 
+//Body-parser
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+
 //Sequelize DB object typical way to get Sequelize DB object
 app.set('models', require('../models'));
 
