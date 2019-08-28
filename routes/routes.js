@@ -28,16 +28,16 @@ app.get('/books', (req, res, next) => {
         const Book = app.get('models').Book;
 
         Book.findAll()
-            .then((bookList) => {
-                res.render("index", {
-                    bookList: bookList
-                });
-            })
-            .catch((err) => {
-                res.render("error", {
-                    error: err
-                });
+        .then((bookList) => {
+            res.render("index", {
+            bookList: bookList
             });
+        })
+        .catch((err) => {
+            res.render("error", {
+                error: err
+            });
+        });
     }
     catch (e) {
         next(new Error('Request could not be fulfilled'));
@@ -53,31 +53,32 @@ app.post('/books/new', (req, res, next) => {
     try {
         const Book = app.get('models').Book;
         Book.create({
-            title: req.body.title,
-            author: req.body.author,
-            genre: req.body.genre,
-            year: req.body.year
+        title: req.body.title,
+        author: req.body.author,
+        genre: req.body.genre,
+        year: req.body.year
         })
-            .then(() => {
-                res.redirect('/books');
-            })
-            //handle sequelize validation error for the create new book page
-            .catch((err) => {
-                if (err.name === "SequelizeValidationError") {
-                    res.render("new-book", {
-                        book: Book.build(req.body),
-                        errors: err.errors
-                    });
-                }
-                else {
-                    throw err;
-                }
-            })
-            .catch((err) => {
-                res.render("error", {
-                    error: err
-                });
-            });
+        .then(() => {
+            res.redirect('/books');
+        })
+        //handle sequelize validation error for the create new book page
+        .catch((err) => {
+        if (err.name === "SequelizeValidationError") {
+          res.render("new-book", {
+            book: Book.build(req.body),
+            errors: err.errors
+          });
+        }
+        else
+        {
+          throw err;
+        }
+      })
+      .catch((err) => {
+        res.render("error", {
+            error: err
+          });
+        });
     }
     catch (e) {
         next(new Error('Request could not be fulfilled'));
@@ -90,20 +91,22 @@ app.get('/books/:id', (req, res, next) => {
 
         const Book = app.get('models').Book;
         Book.findByPk(req.params.id)
-            .then((foundBook) => {
-                if (foundBook) {
-                    res.render("update-book", { id: foundBook.id, book: foundBook });
-                }
-                else {
-                    res.render("page-not-found");
-                }
-            })
+        .then((foundBook) => {
+            if (foundBook)
+            {
+                res.render("update-book", { id: foundBook.id, book: foundBook });
+            }
+            else
+            {
+                res.render("page-not-found");
+            }
+        })
 
-            .catch((err) => {
-                res.render("error", {
-                    error: err
-                });
+        .catch((err) => {
+            res.render("error", {
+                error: err
             });
+        });
     }
     //Renders error view in an event of an error
     catch (e) {
@@ -113,43 +116,43 @@ app.get('/books/:id', (req, res, next) => {
 
 app.post('/books/:id', (req, res, next) => {
     try {
-        const Book = app.get('models').Book;
+    const Book = app.get('models').Book;
 
-        Book.update({
-            title: req.body.title,
-            author: req.body.author,
-            genre: req.body.genre,
-            year: req.body.year
+    Book.update({
+        title: req.body.title,
+        author: req.body.author,
+        genre: req.body.genre,
+        year: req.body.year
         },
-            {
-                where: { id: req.params.id }
-            }
-        )
-            .then(() => {
-                res.redirect('/books');
-            })
-            //handle sequelize validation error for the edit page
-            .catch((err) => {
-                if (err.name === "SequelizeValidationError") {
-                    res.render("update-book", {
-                        book: Book.build(req.body),
-                        id: req.params.id,
-                        errors: err.errors
-                    });
-                }
-                else {
-                    throw err;
-                }
-            })
-            .catch((err) => {
-                res.render("error", {
-                    error: err
-                });
-            });
-    }
+        {where: {id: req.params.id}
+        }
+    )
+    .then(() => {
+        res.redirect('/books');
+    })
+    //handle sequelize validation error for the edit page
+    .catch((err) => {
+        if (err.name === "SequelizeValidationError") {
+          res.render("update-book", {
+            book: Book.build(req.body),
+            id: req.params.id,
+            errors: err.errors
+          });
+        }
+        else
+        {
+          throw err;
+        }
+      })
+      .catch((err) => {
+        res.render("error", {
+            error: err
+          });
+        });  
+    } 
     catch (e) {
         next(new Error('Request could not be fulfilled'));
-    }
+    }    
 });
 
 //ROUTE: Define route for 'delete' book for ID = :id
@@ -157,25 +160,27 @@ app.post('/books/:id/delete', (req, res, next) => {
     try {
         const Book = app.get('models').Book;
         Book.findByPk(req.params.id)
-            .then((foundBook) => {
-                if (foundBook) {
-                    Book.destroy({
-                        where: { id: req.params.id }
-                    }).then(() => {
-                        res.redirect('/books');
-                    });
-                }
-                else {
-                    //Render 404 if the book with this :id is not found
-                    res.render("page-not-found");
-
-                }
-            })
-            .catch((err) => {
-                res.render("error", {
-                    error: err
-                });
+        .then((foundBook) => {
+        if (foundBook)
+        {
+            Book.destroy({
+                where: {id: req.params.id}
+            }).then(() => {
+            res.redirect('/books');
             });
+        }
+        else
+        {
+            //Render 404 if the book with this :id is not found
+            res.render("page-not-found");
+
+        }
+        })
+        .catch((err) => {
+            res.render("error", {
+                error: err
+            });
+        });
     }
     catch (e) {
         next(new Error('Request could not be fulfilled'));
@@ -189,17 +194,17 @@ app.use((req, res, next) => {
     console.log("Requested route is undefined.");
     //Page not found
     res.render("page-not-found");
-});
+  });
 
 const newLocal = 500;
 //error route: reached from any of the non-default in the
 //event of an error (error handler)
 app.use((err, req, res, next) => {
-    console.log(err);
-    if (!res.headersSent) {
+    console.log(err);    
+    if(!res.headersSent){
         res.status(newLocal);
-        res.render('error', { error: err });
-    }
+        res.render('error', {error: err});
+}
 });
 
 module.exports = app;
