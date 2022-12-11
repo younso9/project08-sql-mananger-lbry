@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/younso9/project08-sql-mananger-lbry#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-validator": "^6.1.1",
     "pug": "^2.0.4",
     "sequelize": "^5.15.2",
